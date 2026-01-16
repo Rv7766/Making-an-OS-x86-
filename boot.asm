@@ -2,10 +2,22 @@ mov ah, 0x0e
 mov al, 65
 int 0x10
 
-mov al, 66
+inc al
 int 0x10
 
-mov al, 67
+inc al
+int 0x10
+
+inc al
+int 0x10
+
+inc al
+int 0x10
+
+inc al
+int 0x10
+
+inc al
 int 0x10
 
 jmp $
