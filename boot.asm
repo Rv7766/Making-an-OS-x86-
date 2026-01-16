@@ -2,10 +2,10 @@ mov ah, 0x0e
 mov al, 65
 int 0x10
 
-mov al, 0x41
+mov al, 66
 int 0x10
 
-mov al, 0b1000001
+mov al, 67
 int 0x10
 
 jmp $
