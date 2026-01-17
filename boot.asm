@@ -1,5 +1,5 @@
 mov bx, 7
-cmp bx, 9
+cmp bx, 7
 je loop
 
 jmp $
