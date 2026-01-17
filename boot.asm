@@ -10,11 +10,22 @@ InputFromKeyboard:
     int 0x10                    ;For Displaying
 
     cmp al, '0'
-    je exit
+    je press7keytest
     jmp InputFromKeyboard
 
-exit:
-    jmp $
+ 
+
+
+press7keytest:
+
+                mov ah, 0
+                int 0x16
+                
+                cmp al, '7'
+                je InputFromKeyboard
+                jmp press7keytest
+
+
 ; boot sector
 times 510-($-$$) db 0
 db 0x55, 0xaa
