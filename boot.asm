@@ -1,13 +1,17 @@
-mov bx, 7
-cmp bx, 7
-je loop
-
-jmp $
+mov ah, 0x0e
+mov al, 65
+jmp loop
 
 loop:
-        mov ah, 0x0e
-        mov al, 'X'
         int 0x10
+        inc al                                                          
+        cmp al, 'Z' + 1                                                   ;#Exiting the loop in assembly:  
+        je exit                                                           ;#    cmp al, 'Z' + 1
+        jmp loop                                                          ;#    je  exit
+
+exit:
+
+    jmp $
 
 
 times 510-($-$$) db 0
