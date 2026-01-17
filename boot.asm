@@ -1,5 +1,6 @@
+[org 31744]
 mov ah, 0x0e
-mov al,[variableName + 31744 ]
+mov al,[variableName]
 int 0x10
 jmp $
 variableName:
