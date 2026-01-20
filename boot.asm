@@ -1,3 +1,6 @@
+;# Completed Chapter 3 . Learned to save a string to memory , and then how to print it and After That how to take a single input from keyboard and then 
+;# how to show that single input to screen and After that learned to create memory for a input string and then how to take the input string from keyboard and
+;# then save it to memory and then how to display that string in the screen  
 [org 0x7c00]
 mov ah, 0x0e
 lea bx, variableName1
