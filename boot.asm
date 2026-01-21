@@ -1,65 +1,38 @@
-;# Completed Chapter 3 . Learned to save a string to memory , and then how to print it and After That how to take a single input from keyboard and then 
-;# how to show that single input to screen and After that learned to create memory for a input string and then how to take the input string from keyboard and
-;# then save it to memory and then how to display that string in the screen  
-[org 0x7c00]
+mov bp, 0x8000
+mov sp, bp
+mov ah, 'T'
+push ax
+
+mov ah, 'I'
+push ax
+
+mov ah, 'M'
+push ax
+
+mov ah, 'A'
+push ax
+
+pop ax
+mov al, ah
 mov ah, 0x0e
-lea bx, variableName1
-jmp printString
+int 0x10
 
-printString:
-            mov al,[bx]
-            int 0x10
-            inc bx
-            cmp al, 0
-            je reloadbx
-            jmp printString
+pop ax
+mov al,ah
+mov ah, 0x0e
+int 0x10
 
-reloadbx:
-            lea bx,buffer
-            jmp InputString
+pop ax
+mov al, ah
+mov ah, 0x0e
+int 0x10
 
-
-InputString:
-            mov ah, 0
-            int 0x16
-            mov [bx],al
-            mov ah, 0x0e
-            int 0x10
-
-            inc bx
-            cmp al, 13
-            je reloadbx2
-            jmp InputString
+pop ax
+mov al, ah
+mov ah, 0x0e
+int 0x10
 
 
-reloadbx2:
-            mov bx,buffer
-            mov ah, 0x0e
-            mov al, 13
-            int 0x10
-
-            jmp printString2
-
-printString2:
-            mov al,[bx]
-            int 0x10
-            cmp al, 0
-            je exit
-            inc bx
-            jmp printString2
-
-
-exit:
-    mov al, buffer
-    jmp $
-
-variableName1:
-        db "Input your String in 18 charactors...... ",0
-
-buffer:
-    times 18 db 0
-
+jmp $
 times 510-($-$$) db 0
-db 0x55,0xaa 
-
-
+db 0x55, 0xaa
