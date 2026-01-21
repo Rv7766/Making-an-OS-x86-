@@ -24,11 +24,23 @@ mov ah, 0x0e
 mov al, [0x7e00]
 int 0x10
 
+mov al, [0x7e01]
+int 0x10
+
+mov al, [0x7e02]
+int 0x10
+
+mov al, [0x7e03]
+int 0x10
+
+mov al, [0x7e04]
+int 0x10
+
 jmp $
 times 510-($-$$) db 0
 db 0x55,0xaa                        ;# Magic booting number at the end of bootsector(512B) 
-times 512 db 'A'               ;# writing 'A' in the next 512 bytes
-
+db 'A','M','I','T'                  ; Writing "AMIT" after the boot sector
+times 508 db 0
 diskNum:                            ; Reversing space for diskNum pointer of 1 byte
      db 0
 
