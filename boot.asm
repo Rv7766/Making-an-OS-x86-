@@ -1,46 +1,54 @@
-[org 0x7c00]
-mov [diskNum], dl    ;# moving the drive number from which we booted from the register dl to pointer diskNum
 
-mov ah, 2            
-mov al, 1            ; number of sectors  from which you want to read
-mov ch, 0            ; cylinder number from which you want to read
-mov cl, 2            ; sector number from  you want to read
-mov dh, 0            ; head number from which you want to read
-mov dl, [diskNum]    ; the drive number that we saved in the variable or pointer diskNum
+GDT_Start:
+     null_descriptor:
+          dd 0
+          dd 0
+     
+     code_descriptor:
 
-
-
-push ax              ;pushing ax , so that we can move in zero to it 
-mov ax, 0            ; moving in zero or 0 to ax so that we can move zero to ex
-mov es, ax           ; moving ax with zero or 0 to es because we can't directly move values to es i guess
-
-                     
-                     ;setting up the pointer where we want to load up our sector im memory........
-pop ax               ; pointer = es * 16 + bx .....................................................
-mov bx, 0x7e00       ;so if we want pointer = 0x7e00
-int 0x13             ;we need 'es' to be zero annd 'bx' to be '0x7e00' as the offset 16 bit value
-                     ;So then pointer = es (0) * 16 + bx (0x7e00) and pointer becomes 0x7e00
-mov ah, 0x0e
-mov al, [0x7e00]
-int 0x10
-
-mov al, [0x7e01]
-int 0x10
-
-mov al, [0x7e02]
-int 0x10
-
-mov al, [0x7e03]
-int 0x10
-
-mov al, [0x7e04]
-int 0x10
-
-jmp $
-times 510-($-$$) db 0
-db 0x55,0xaa                        ;# Magic booting number at the end of bootsector(512B) 
-db 'A','M','I','T'                  ; Writing "AMIT" after the boot sector
-times 508 db 0
-diskNum:                            ; Reversing space for diskNum pointer of 1 byte
+     dw 0xffff
+     dw 0
      db 0
+     db 0b10011010
+     db 0b11001111
+     db 0
+
+     data_descriptor:
+
+     dw 0xffff
+     dw 0
+     db 0
+     db 0b10010010
+     db 0b11001111
+     db 0
+
+GDT_End:
+
+GDT_Descriptor:
+
+     dw GDT_End - GDT_Start - 1
+     dd GDT_Start
+
+
+CODE_SEG equ code_descriptor - GDT_Start
+DATA_SEG equ data_descriptor - GDT_Start
+
+
+cli
+lgdt [GDT_Descriptor]
+
+mov eax,  cr0
+or eax, 1
+mov cr0, eax
+
+jmp CODE_SEG:start_protected_mode
+
+[bits 32]
+start_protected_mode:
+
+mov al, 'A'
+mov ah, 0x0f
+
+mov [0xb8000], ax 
+ 
 
