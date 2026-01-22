@@ -1,6 +1,4 @@
 [org 0x7c00]
-[bits 16]
-
 start:
     ; Set up segments
     xor ax, ax
