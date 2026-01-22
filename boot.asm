@@ -59,7 +59,7 @@ start_protected_mode:
     
     ; Write to video memory
     mov al, 'A'
-    mov ah, 0x0f
+    mov ah, 0x04
     mov [0xb8000], ax
     
     ; Halt
